@@ -1,3 +1,12 @@
+body {
+  background-color: #282c34;
+  min-height: 100vh;
+}
+#root {
+  background-color: #282c34;
+  min-height: 100vh;
+}
+
 .App {
   text-align: center;
 }
@@ -29,4 +38,33 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.price-xs {
+  color: #ff9792;
+}
+
+.price-sm {
+  color: #ffd06d;
+}
+
+.price-md {
+  color: #2ec8d3;
+}
+
+.price-lg {
+  color: #cb90ff;
+}
+
+.price-xl {
+  color: #78c314;
+}
+
+.diff-success {
+  color: #78c35d;
+}
+
+.diff-danger {
+  color: #b88084;
 }

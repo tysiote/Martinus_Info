@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from "moment";
 import Currency from "./Currency";
+import Chart from './Chart';
 import {Table } from 'reactstrap';
 // import CoinMarketCap from "coinmarketcap-api";
 
@@ -13,28 +14,41 @@ class Portfolio extends React.Component {
         super(props);
         this.state = {
             isLoading: true,
-            raw_data : []
+            raw_data : [],
+            currencies: [],
+            bitcoin: null,
         };
 
     }
 
     render() {
-        const {raw_data, isLoading} = this.state;
-        if (isLoading) {
+        const raw_data = this.state.raw_data;
+        if (this.state.isLoading) {
             return <p>Loading ... </p>
         }
+        console.log("LOADED");
+        // raw_data.currencies.map(c => {
+        //     if (c.abbr.toLowerCase() === "btc") {
+        //         bitcoin = c;
+        //     }
+        // });
         return (
             <div>
+                <Chart data={raw_data}/>
                 <Table dark striped>
                     <thead>
                         <tr>
                             <th>Coin</th>
+                            <th>USD</th>
+                            <th>Amount</th>
+                            <th>Shitness Index</th>
+                            <th>Stats (1h, 24h, 7d)</th>
                             <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         {raw_data.currencies.map(c =>
-                            <Currency data={c} />
+                            <Currency key={c.abbr} data={c} binance={raw_data.binance} bitcoin={this.state.bitcoin}/>
                         )}
                     </tbody>
                 </Table>
@@ -46,7 +60,13 @@ class Portfolio extends React.Component {
         fetch(API)
             .then(response => response.json())
             .then(data => {
-                this.setState({raw_data: data, isLoading: false});
+                let btc = null;
+                data.currencies.forEach((c) => {
+                    if (c.abbr.toLowerCase() === "btc") {
+                        btc = c;
+                    }
+                });
+                this.setState({raw_data: data, isLoading: false, bitcoin: btc});
                 // this.filterEvents();
             })
         //

@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.2.1",
+    "highcharts": "^7.0.1",
+    "highcharts-react-official": "^2.0.0",
     "moment": "^2.23.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
