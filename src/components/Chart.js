@@ -1,7 +1,6 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import HighchartsTheme from 'highcharts';
 
 class Chart extends React.Component {
     constructor(props) {
@@ -9,7 +8,6 @@ class Chart extends React.Component {
         this.state = {
             total_usd : 0,
             data: [],
-            theme: {}
         };
     }
 
@@ -35,38 +33,26 @@ class Chart extends React.Component {
         });
         state.data = temp;
         state.total_usd = total.toFixed(2);
-        state.theme = {
-            legend: {
-                itemStyle: {
-                    color: '#E0E0E3'
-                },
-                itemHoverStyle: {
-                    color: '#FFF'
-                },
-                itemHiddenStyle: {
-                    color: '#606063'
-                }
-            },
-            legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
-            background2: '#505053',
-            dataLabelsColor: '#B0B0B3',
-            textColor: '#C0C0C0',
-            contrastTextColor: '#F0F0F3',
-            maskColor: 'rgba(255,255,255,0.3)'
-        };
         this.setState(state);
     }
 
     setOptions() {
         return {
             chart: {
-                plotBackgroundColor: null,
+                plotBackgroundColor: '#282c34',
+                backgroundColor: '#282c34',
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: 'pie'
+                type: 'pie',
             },
             title: {
-                text: 'My portfolio [' + this.state.total_usd + '$]'
+                useHTML: true,
+                text: 'My portfolio [' + this.state.total_usd + '$]',
+                style: {
+                    backgroundColor: '#282c34',
+                    color: 'white',
+                    fontWeight: 'bold'
+                },
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br>Amount: <b>{point.amount}</b><br>USD: <b>{point.usd}$</b>'
@@ -77,12 +63,26 @@ class Chart extends React.Component {
             credits: {
                 enabled: false
             },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                floating: true,
+                backgroundColor: '#282c34',
+                itemStyle: {
+                    color: '#FFF',
+                    cursor: 'text'
+                },
+                itemHoverStyle: {
+                    color: '#FFF',
+                }
+            },
             plotOptions: {
                 pie: {
                     allowPointSelect: false,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
+                        enabled: false,
                     },
                     showInLegend: true
                 }
@@ -96,15 +96,11 @@ class Chart extends React.Component {
     }
 
     render() {
-        let chart = Highcharts;
-        chart.setTheme(this.state.theme);
-        chart.setOptions(this.setOptions());
         return (
             <div>
                 <HighchartsReact
-                    highcharts={chart}
-                    // options={this.setOptions()}
-                    // theme={HighchartsTheme.dark}
+                    highcharts={Highcharts}
+                    options={this.setOptions()}
                 />
             </div>
         );
